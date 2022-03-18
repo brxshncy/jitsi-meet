@@ -1,32 +1,32 @@
 /* global APP */
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import { App } from './features/app/components';
-import { getLogger } from './features/base/logging/functions';
-import { Platform } from './features/base/react';
-import { getJitsiMeetGlobalNS } from './features/base/util';
-import PrejoinApp from './features/prejoin/components/PrejoinApp';
+import { App } from "./features/app/components";
+import { getLogger } from "./features/base/logging/functions";
+import { Platform } from "./features/base/react";
+import { getJitsiMeetGlobalNS } from "./features/base/util";
+import PrejoinApp from "./features/prejoin/components/PrejoinApp";
 
-const logger = getLogger('index.web');
+const logger = getLogger("index.web");
 const OS = Platform.OS;
 
 /**
  * Renders the app when the DOM tree has been loaded.
  */
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     const now = window.performance.now();
-
-    APP.connectionTimes['document.ready'] = now;
-    logger.log('(TIME) document ready:\t', now);
+    console.log("test");
+    APP.connectionTimes["document.ready"] = now;
+    logger.log("(TIME) document ready:\t", now);
 });
 
 // Workaround for the issue when returning to a page with the back button and
 // the page is loaded from the 'back-forward' cache on iOS which causes nothing
 // to be rendered.
-if (OS === 'ios') {
-    window.addEventListener('pageshow', event => {
+if (OS === "ios") {
+    window.addEventListener("pageshow", (event) => {
         // Detect pages loaded from the 'back-forward' cache
         // (https://webkit.org/blog/516/webkit-page-cache-ii-the-unload-event/)
         if (event.persisted) {
@@ -43,16 +43,16 @@ const globalNS = getJitsiMeetGlobalNS();
 
 globalNS.entryPoints = {
     APP: App,
-    PREJOIN: PrejoinApp
+    PREJOIN: PrejoinApp,
 };
 
 globalNS.renderEntryPoint = ({
     Component,
     props = {},
-    elementId = 'react'
+    elementId = "react",
 }) => {
     ReactDOM.render(
-        <Component { ...props } />,
+        <Component {...props} />,
         document.getElementById(elementId)
     );
 };
